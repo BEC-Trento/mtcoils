@@ -1,0 +1,47 @@
+# valori PRECISI e shiftati di lz*Nz/2
+# cfr ella.c
+# mannaia Simone
+quadrupole_down:
+    Rint: 5.5e-2
+    Nr: 9
+    Nz: 8
+    lr: 4.2e-3
+    lz: 4.2e-3
+    position: [0, 0, -3.68e-2] # z = z0 + lz*Nz/2
+    normal: [0, 0, -1]
+
+quadrupole_up:
+    Rint: 5.5e-2
+    Nr: 9
+    Nz: 8
+    lr: 4.2e-3
+    lz: 4.2e-3
+    position: [0, 0, 3.68e-2]
+    normal: [0, 0, 1]
+
+compensation_1:
+    Rint: 8.7e-2
+    Nr: 4
+    Nz: 4
+    lr: 4.2e-3
+    lz: 4.2e-3
+    position: [8.34e-2, 0, 0]
+    normal: [-1, 0, 0]
+
+compensation_2:
+    Rint: 8.7e-2
+    Nr: 4
+    Nz: 4
+    lr: 4.2e-3
+    lz: 4.2e-3
+    position: [-8.34e-2, 0, 0]
+    normal: [-1, 0, 0]
+
+pinch:
+    Rint: 1.25e-2
+    Nr: 4
+    Nz: 3
+    lr: 3.2e-3
+    lz: 3.2e-3
+    position: [2.43e-2, 0, 0]
+    normal: [1, 0, 0]
