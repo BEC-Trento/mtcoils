@@ -5,7 +5,7 @@ from scipy.constants import pi, mu_0
 
 from matplotlib.patches import Wedge
 
-from plotpatch3d import pathpatch_2d_to_3d, cycle_kwargs
+from .plotpatch3d import pathpatch_2d_to_3d, cycle_kwargs
 
 
 class Coil():

@@ -69,7 +69,7 @@ def pathpatch_2d_to_3d(pathpatch, z=0, normal='z', translate=None):
 
     verts = path.vertices  # Get the vertices in 2D
 
-    d = np.cross(normal, (0, 0, 1))  # Obtain the rotation vector
+    d = np.cross(normal, (0, 0, 1.))  # Obtain the rotation vector
     M = rotation_matrix(d)  # Get the rotation matrix
 
     pathpatch._segment3d = np.array(

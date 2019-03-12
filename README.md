@@ -2,8 +2,7 @@
 Static B field calculator for arbitrary configurations of coils
 
 ## Yet another coil calculator
-Exactly. To be honest, this started when I tried to re-use some piece of code written by a colleague of mine for the same task, and found it easier in the end to rewrite it from scratch instead than to compile it and make it work. At that point, most of the work was done and I thought is could be nice to finish this small piece of project. So here we are:
-
+Exactly. To be honest, this started when I tried to re-use some piece of code written by a colleague of mine for the same task (ref. [_c_code](_c_code)), and found it easier in the end to rewrite it from scratch instead than to compile it and make it work. At that point, most of the work was done and I thought is could be nice to finish this small piece of project. So here we are:
 
 ## Usage
 
