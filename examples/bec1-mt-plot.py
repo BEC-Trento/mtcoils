@@ -3,22 +3,17 @@
 #
 # Create: 03-2019 - Carmelo Mordini <carmelo> <carmelo.mordini@unitn.it>
 import sys
-sys.path.insert(0, '..')
+sys.path.append('..')
 
 import numpy as np
 import matplotlib.pyplot as plt
 
 from mtcoils.coils import CoilSystem
+from mtcoils.setup import setup_bec1 as D
 
-from ruamel.yaml import YAML
-yaml = YAML(typ='safe')
 
 plt.rcParams['image.aspect'] = 1
 
-data = 'magnetic-trap-bec1.yaml'
-
-with open(data) as f:
-    D = yaml.load(f)
 
 print(D)
 coil_system = CoilSystem(D.values())
