@@ -2,29 +2,25 @@
 # -*- coding: utf-8 -*-
 #
 # Create: 03-2019 - Carmelo Mordini <carmelo> <carmelo.mordini@unitn.it>
-import sys
-sys.path.insert(0, '..')
+# import sys
+# sys.path.insert(0, '..')
 
 import numpy as np
 import matplotlib.pyplot as plt
 
 from scipy.optimize import curve_fit
 from scipy.constants import pi, h, atomic_mass
-mass = 23*atomic_mass  # ^23 Na
 
 from mtcoils.coils import CoilSystem
+from mtcoils.setup import setup_bec1 as D
 
-from ruamel.yaml import YAML
-yaml = YAML(typ='safe')
+import pprint
+
+mass = 23*atomic_mass  # ^23 Na
 
 plt.rcParams['image.aspect'] = 1
 
-data = 'magnetic-trap-bec1.yaml'
-
-with open(data) as f:
-    D = yaml.load(f)
-
-print(D)
+pprint.pprint(D)
 coil_system = CoilSystem(D.values())
 
 # small region around 0
@@ -36,12 +32,12 @@ X,Y,Z = np.meshgrid(xx, zz, zz, indexing='ij')
 # X,Y,Z = np.meshgrid(zz, zz, zz, indexing='ij')
 ix0 = len(zz)//2
 
-Bquad = coil_system.calc_B(X,Y,Z, 50)  # choose one current
+Bquad = coil_system.calc_B(X,Y,Z, 45)  # choose one current
 
 X1 = X[:, :, 0]
 Y1 = Y[:, :, 0]
 
-B_xy = Bquad[:,:,:,ix0]  # slice at z = 0
+B_xy = Bquad[:,:,:,ix0]  # slice at z = 0, where Bz = 0
 abs_B_xy = np.linalg.norm(B_xy, axis=0)
 
 fig, ax = plt.subplots()
@@ -55,6 +51,12 @@ print(zz[ix0])
 
 
 abs_B = np.linalg.norm(Bquad, axis=0)
+
+# Shift by gravity to include sag
+gravity = 9.806
+B_gravity = mass * gravity * Z /(h * 0.7e6)
+
+abs_B += B_gravity
 
 # slices along x, y, z axes
 Vx = abs_B[:, ix0, ix0]
@@ -73,7 +75,7 @@ def Vpot3D(XYZ, cx, cy, cz, mx, my, mz, b0, ravel=True):
 
 p0 = (1e7, 1e7, 1e7, 0, 0, 0, 0)
 p, cov = curve_fit(Vpot3D,
-    (X.ravel(), Y.ravel(), Z.ravel()), abs_B.ravel(), p0)
+    list(map(np.ravel, (X, Y, Z))), abs_B.ravel(), p0)
 p = {k: v for k, v in zip(('cx', 'cy', 'cz', 'mx', 'my', 'mz', 'b0'), p)}
 print(p)
 fitted = Vpot3D((X, Y, Z), ravel=False, **p)
@@ -91,6 +93,11 @@ for label, (V, fitt) in plotting.items():
     print(f"Trap freq {label}: {np.sqrt(omega2)/2/pi:.2f} Hz")
     l, = ax.plot(zz*1e2, V, 'o', label=f'axis {label}')
     ax.plot(zz*1e2, fitt, '-', color=l.get_color())
+
+z_sag = - mass * gravity / (2*h*0.7e6*p['cz'])
+z_sag_fit = p['mz']
+print(f"grav. sag: {z_sag*1e6:.3f} um (fitted: {z_sag_fit*1e6:.3f} um)")
+ax.axvline(z_sag*1e2, ls='--', color=l.get_color())
 # ax.set_ylim(top=100)
 ax.grid()
 ax.legend()

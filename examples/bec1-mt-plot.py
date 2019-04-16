@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 #
 # Create: 03-2019 - Carmelo Mordini <carmelo> <carmelo.mordini@unitn.it>
-import sys
-sys.path.append('..')
+# import sys
+# sys.path.append('..')
 
 import numpy as np
 import matplotlib.pyplot as plt
